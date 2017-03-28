@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 let api = axios.create({
   baseURL: 'http://localhost:3000/api/',
@@ -9,8 +10,10 @@ let api = axios.create({
 // REGISTER ALL DATA HERE
 let state = {
   user: {},
-  myVaults: {},
-  myKeeps: {},
+  myVaults: [],
+  myKeeps: [],
+  activeVault: {},
+  activeKeep: {},
   //Dummy Data
   keeps: [{
     title: 'Learn to Draw',
@@ -73,6 +76,160 @@ export default {
   state,
   // ACTIONS ARE RESPONSIBLE FOR MANAGING ALL ASYNC REQUESTS
   actions: {
+    getUserVaults(){
+      api('myvaults')
+        .then(res => {
+          state.myVaults = res.data.data;
+        })
+        .catch(handleError);
+    },
+    getUserKeeps(){
+      api('mykeeps')
+        .then(res => {
+          state.myKeeps = res.data.data;
+        })
+        .catch(handleError);
+    },
+    getPublicKeeps(){
+      api('publickeeps')
+        .then(res => {
+          state.keeps = res.data.data;
+        })
+        .catch(handleError);
+    },
+    createKeep(vaultId, keep){
+      console.log(keep);
+      api.post('/keep/' + vaultId, keep)
+        .then(res => {
+          state.activeKeep = res.data.data;
+          router.push({ path: '/keeps/' + state.activeKeep._id })
+        })
+        .catch(handleError);
+    },
+    setActiveKeep(keepId){
+      api('keep/' + keepId)
+        .then(res => {
+          state.activeKeep = res.data.data;
+        })
+        .catch(handleError);
+    },
+    deleteKeep(keepId){
+      api.delete('keeps/' + keepId)
+        .then(res => {
+          router.push({ path: '/' });
+        })
+        .catch(handleError);
+    },
+    editKeep(keepId, keep){
+      api.put('keeps/' + keepId, keep)
+        .then(res => {
+          this.setActiveKeep(keepId);
+        })
+        .catch(handleError);
+    },
+    addToVault(keepId, vaultId){
+      api.put('vault/' + vaultId + '/keep', {
+        keepId: keepId
+      })
+        .then(res => {
+          state.activeVault = res.data.data;
+          router.push({ path: '/vaults/' + state.activeVault._id })
+        })
+        .catch(handleError);
+    },
+    removeFromVault(vaultId, keepId){
+      api.put('vault/' + vaultId + '/removekeep', keepId)
+        .then(res => {
+          this.setActiveVault(vaultId);
+        })
+        .catch(handleError);
+    },
+    createVault(name, description, image){
+      api.post('vaults', {
+        name: name,
+        description: description,
+        imageUrl: image
+      })
+        .then(res => {
+          console.log(res.data.data);
+          state.activeVault = res.data.data;
+          router.push({ path: '/vaults/' + state.activeVault._id })
+        })
+        .catch(handleError);
+    },
+    editVault(vaultId, vaultName, vaultDesc, vaultImg){
+      api.put('vaults/' + vaultId, {
+        name: vaultName,
+        description: vaultDesc,
+        imageUrl: vaultImg
+      })
+        .then(res => {
+          this.setActiveVault(vaultId);
+        })
+        .catch(handleError);
+    },
+    deleteVault(vaultId){
+      api.delete('vaults/' + vaultId)
+        .then(res => {
+          this.getUserVaults();
+        })
+        .catch(handleError);
+    },
+    setActiveVault(vaultId){
+      api('vault/' + vaultId)
+        .then(res => {
+          state.activeVault = res.data.data
+        })
+        .catch(handleError);
+    },
+    login(email, password) {
+      api.post('http://localhost:3000/login', {
+        email: email,
+        password: password
+      })
+        .then(res => {
+          if (res.data.data) {
+            state.user = res.data.data;
+            this.getUserKeeps();
+            this.getUserVaults();
+          } else {
+            state.error = res.data.error;
+            Materialize.toast(res.data.error, 1000);
+          }
+        })
+        .catch(handleError);
+    },
+    register(name, email, password) {
+      api.post('http://localhost:3000/register', {
+        name: name,
+        email: email,
+        password: password
+      })
+        .then(res => {
+          state.user = res.data.data;
+        })
+        .catch(handleError);
+    },
+    logout() {
+      api.delete('http://localhost:3000/logout')
+        .then(res => {
+          state.user = {};
+          Materialize.toast(res.data.message, 1000);
+          router.push({ path: '/' });
+        })
+        .catch(handleError);
+    },
+    authenticate() {
+      api('http://localhost:3000/authenticate')
+        .then(res => {
+          if (res.data.data) {
+            state.user = res.data.data;
+            this.getUserKeeps();
+            this.getUserVaults();
+          }
+        })
+        .catch(handleError);
+    }
   }
 
 }
