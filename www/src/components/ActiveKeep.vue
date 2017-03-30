@@ -32,7 +32,7 @@
               </div>
               <div class="input-field col s12 center">
                 <button @click="toggleEdit" class="waves-effect waves-teal btn btn-flat"><i class="fa fa-times"></i></button>
-                <button type="submit" class="waves-effect waves-teal btn blue darken-4">Update Keep</button>
+                <button type="submit" class="waves-effect waves-teal btn blue darken-4 blue darken-2">Update Keep</button>
               </div>
             </form>
           </div>
@@ -49,7 +49,7 @@
         <label>Vault</label>
       </div>
       <div class="input-field col s12 center">
-        <button type="submit" class="waves-effect waves-teal btn">Add</button>
+        <button type="submit" class="waves-effect waves-teal btn blue darken-4">Add</button>
       </div>
     </form>
 
@@ -71,9 +71,14 @@
     mounted() {
       this.$nextTick(() => {
         console.log('initialize select..... hopefully');
-        $('select').material_select();
+        setTimeout(function () {
+          $('select').material_select();
+          $(".button-collapse").sideNav();
+          $('.button-collapse').sideNav('hide');
+        }, 500);
       })
       this.$root.$data.store.actions.setActiveKeep(this.$route.params.id);
+      this.$root.$data.store.actions.clearSearch();
     },
     computed: {
       myVaults() {
@@ -94,7 +99,7 @@
         this.editArticle = this.activeKeep.articleLink;
         this.editTags = this.activeKeep.tags;
       },
-      editKeep(){
+      editKeep() {
         var checked = document.getElementById('filled-in-box').checked;
         let keep = {
           title: this.editTitle,

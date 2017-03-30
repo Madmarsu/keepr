@@ -1,10 +1,30 @@
 <template>
   <div class="container">
-    <h4 class="center">All Keeps</h4>
+    <form v-if="this.$root.$data.store.state.user._id" @submit.prevent="searchByTag">
+      <div class="input-field">
+        <input id="search" type="search" v-model="tagSearch" required>
+        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+    </form>
     <div class="row">
-      <div v-for="keep in keeps" class="col s6 m4">
-        <keep :keep="keep"></keep>
-        <!--<div class="card hoverable" v-on:mouseenter="showAction" v-on:mouseleave="showAction">
+      <div v-if="searchResults[0]">
+        <div class="col s10">
+          <h4 class="topmargin">Showing results for {{ this.$root.$data.store.state.searchedTerm }}</h4>
+        </div>
+        <div class="col s2">
+          <button @click="clearSearch" class="waves-effect waves-teal btn blue darken-4 right">Clear</button>
+        </div>
+        <div class="clearfix"></div>
+        <div v-for="keep in searchResults" class="col s6 m4">
+          <keep :keep="keep"></keep>
+        </div>
+      </div>
+      <div v-if="!searchResults[0]">
+        <!--<h4 class="center">All Keeps</h4>-->
+        <div v-for="keep in keeps" class="col s6 m4">
+          <keep :keep="keep"></keep>
+          <!--<div class="card hoverable" v-on:mouseenter="showAction" v-on:mouseleave="showAction">
           <div class="card-image" v-if="keep.imageUrl">
             <img :src="keep.imageUrl">
           </div>
@@ -17,6 +37,7 @@
             <span class="right" v-show="hoverShow"><router-link :to="'/keep/' + keep._id">add to vault</router-link></span>
           </div>
         </div>-->
+        </div>
       </div>
     </div>
   </div>
@@ -32,20 +53,39 @@
     },
     data() {
       return {
-        hoverShow: false
+        hoverShow: false,
+        tagSearch: ''
       }
     },
     computed: {
       keeps() {
         return this.$root.$data.store.state.keeps;
-      }
+      },
+      searchResults() {
+        return this.$root.$data.store.state.searchResults;
+      },
+
     },
-    mounted(){
+    mounted() {
+      this.$nextTick(() => {
+        console.log('initialize select..... hopefully');
+        setTimeout(function () {
+          $(".button-collapse").sideNav();
+          $('.button-collapse').sideNav('hide');
+        }, 500);
+      })
       this.$root.$data.store.actions.getPublicKeeps();
     },
     methods: {
       showAction() {
         this.hoverShow = !this.hoverShow;
+      },
+      clearSearch() {
+        this.$root.$data.store.actions.clearSearch();
+      },
+      searchByTag() {
+        this.$root.$data.store.actions.searchByTag(this.tagSearch);
+        this.tagSearch = '';
       }
     }
   }
@@ -53,5 +93,7 @@
 </script>
 
 <style>
-
+  .topmargin {
+    margin-top: -4px;
+  }
 </style>

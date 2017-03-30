@@ -29,7 +29,7 @@
         <label>Vault</label>
       </div>
       <div class="input-field col s12 center">
-        <button type="submit" class="waves-effect waves-teal btn">Create</button>
+        <button type="submit" class="waves-effect waves-teal btn blue darken-4">Create</button>
       </div>
     </form>
   </div>
@@ -52,13 +52,21 @@
       }
     },
     mounted() {
-      $('select').material_select();
+      this.$nextTick(() => {
+        console.log('initialize select..... hopefully');
+        setTimeout(function () {
+          $('select').material_select();
+          $(".button-collapse").sideNav();
+          $('.button-collapse').sideNav('hide');
+        }, 500);
+      })
+      this.$root.$data.store.actions.clearSearch();
     },
     methods: {
       createKeep() {
         var checkbox = document.getElementById('filled-in-box').checked;
         var select = document.getElementById('selected').value;
-        if(this.image == '' && this.article == ''){
+        if (this.image == '' && this.article == '') {
           Materialize.toast('A keep must have an image or article!', 1000);
         } else {
           let keep = {

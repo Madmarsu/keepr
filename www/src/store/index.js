@@ -14,6 +14,8 @@ let state = {
   myKeeps: [],
   activeVault: {},
   activeKeep: {},
+  searchResults: [],
+  searchedTerm: '',
   //Dummy Data
   keeps: [{
     title: 'Learn to Draw',
@@ -97,6 +99,20 @@ export default {
         })
         .catch(handleError);
     },
+    searchByTag(tags){
+      api.post('taggedkeeps', {
+        tags: tags
+      })
+        .then(res => {
+          state.searchedTerm = tags;
+          state.searchResults = res.data.data;
+        })
+        .catch(handleError);
+    },
+    clearSearch(){
+      state.searchedTerm = '';
+      state.searchResults = [];
+    },
     createKeep(vaultId, keep){
       console.log(keep);
       api.post('/keep/' + vaultId, keep)
@@ -153,7 +169,7 @@ export default {
         .then(res => {
           console.log(res.data.data);
           state.activeVault = res.data.data;
-          router.push({ path: '/vaults/' + state.activeVault._id })
+          router.push({ path: '/' })
         })
         .catch(handleError);
     },

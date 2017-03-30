@@ -86,9 +86,16 @@
             }
         },
         mounted() {
-            $(".button-collapse").sideNav();
+            this.$nextTick(() => {
+                console.log('initialize select..... hopefully');
+                setTimeout(function () {
+                    $(".button-collapse").sideNav();
+                    $('.button-collapse').sideNav('hide');
+                }, 500);
+            })
             this.$root.$data.store.actions.getUserVaults();
             this.$root.$data.store.actions.getUserKeeps();
+            this.$root.$data.store.actions.clearSearch();
         },
         methods: {
             showAction() {
@@ -112,7 +119,7 @@
 
 <style>
     .height {
-        height: 30px;
+        height: 43px;
     }
     
     .secondary-content a {

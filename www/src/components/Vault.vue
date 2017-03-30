@@ -64,6 +64,13 @@
       }
     },
     mounted() {
+      this.$nextTick(() => {
+        console.log('initialize select..... hopefully');
+        setTimeout(function () {
+          $(".button-collapse").sideNav();
+          $('.button-collapse').sideNav('hide');
+        }, 500);
+      })
       this.$root.$data.store.actions.setActiveVault(this.$route.params.id);
     },
     methods: {
@@ -76,7 +83,7 @@
         this.editDesc = this.activeVault.description;
         this.editImg = this.activeVault.imageUrl;
       },
-      editVault(){
+      editVault() {
         this.$root.$data.store.actions.editVault(this.$route.params.id, this.editName, this.editDesc, this.editImg);
         this.showEdit = false;
       }

@@ -19,7 +19,7 @@
                     <router-link to="/sign-up" class="waves-effect waves-teal btn-flat">Sign Up</router-link>
                 </div>
                 <div class="right">
-                    <button type="submit" class="waves-effect waves-indigo btn indigo right-align">Login</button>
+                    <button type="submit" class="waves-effect waves-indigo btn blue darken-4 right-align">Login</button>
                 </div>
             </div>
         </form>

@@ -14,7 +14,7 @@
         <input id="description" type="text" v-model="description">
         <label for="description">Description</label>
       </div>
-      <button type="submit" class="waves-effect waves-teal btn">Create</button>
+      <button type="submit" class="waves-effect waves-teal btn blue darken-4">Create</button>
     </form>
   </div>
 </template>
@@ -28,6 +28,16 @@
         description: '',
         image: ''
       }
+    },
+    mounted() {
+      this.$nextTick(() => {
+        console.log('initialize select..... hopefully');
+        setTimeout(function () {
+          $(".button-collapse").sideNav();
+          $('.button-collapse').sideNav('hide');
+        }, 500);
+      })
+      this.$root.$data.store.actions.clearSearch();
     },
     methods: {
       createVault() {

@@ -5,24 +5,21 @@
                 <img class="parallax-bg" src="http://img08.deviantart.net/fb9b/i/2015/182/c/a/fallout_4___vault_111_wallpaper_by_grindone-d8zheki.jpg">
             </div>
         </div>
-        <div class="section blue-grey darken-2 center">
+        <div class="section blue darken-3 center yellow-text">
             <div class="row container">
-                <h3 class="header">It's dangerous to go alone!</h3>
-                <div class="col s4">
-                    <h5><i class="fa fa-users"></i> Make Friends</h5>
-                    <p>Connect with others who play the same games as you! Bond over similiar interests.</p>
+                <h3 class="header">The things you love will survive the apocalypse, even if you don't!</h3>
+                <div class="col s12 m4">
+                    <h5><i class="fa fa-bolt"></i> Create Keeps</h5>
+                    <p>Immortalize the things you love in keeps and store them safely away in different vaults.</p>
                 </div>
-                <div class="col s4">
-                    <h5><i class="fa fa-steam-square"></i> Import Your Library*</h5>
-                    <p>Connect your Steam account to be able to import your library! It makes connecting a breeze.</p>
+                <div class="col s12 m4">
+                    <h5><i class="fa fa-cog"></i> Store in Vaults</h5>
+                    <p>Our vaults are built to withstand the most powerful atomic blasts, and definitely aren't covers for screwed up experiments.</p>
                 </div>
-                <div class="col s4">
-                    <h5><i class="fa fa-gamepad"></i> Play</h5>
-                    <p>Find friends for obscure titles and the current hits! Say goodbye to having nobody to play with.</p>
+                <div class="col s12 m4">
+                    <h5><i class="fa fa-thumbs-up"></i> Prepared for the Future</h5>
+                    <p>Vault-Tec is here for you. Revolutionizing safety for an uncertain future.</p>
                 </div>
-            </div>
-            <div>
-                <sup>*Note that your Steam profile must be set to public for our app to work. You can set your profile back to private after you've linked your account.</sup>
             </div>
         </div>
         <div class="parallax-container">
@@ -30,7 +27,7 @@
                 <img class="parallax-bg" src="https://i.ytimg.com/vi/axy4ZakRqPw/maxresdefault.jpg">
             </div>
             <div class="center">
-                <router-link to="/sign-up" class="sign-up waves-effect waves-indigo btn btn-large indigo hoverable raised">Sign Up Today</router-link>
+                <router-link to="/register" class="sign-up waves-effect waves-indigo btn btn-large blue darken-2 hoverable raised">Sign Up Today</router-link>
             </div>
         </div>
     </div>
